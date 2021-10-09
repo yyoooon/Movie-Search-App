@@ -13,8 +13,8 @@
         <Content
           v-for="content in contents"
           :key="content.imdbID"
-          :content="content"
-        />
+          :content="content" 
+          @click="readContent($event, content.imdbID)" />
       </ul>
     </section>
   </div>
@@ -39,18 +39,33 @@ export default {
       return this.$store.state.contents.contents.Search
     }
   },
-  created() {
-    this.contentSectionInit()
+  mounted() {
+    // 윈도우 스크롤 이벤트 작성
+    window.addEventListener('scroll', () => {
+        const isScrollEnded =
+          window.innerHeight + window.scrollY + 100 >= document.body.offsetHeight
+        if (isScrollEnded) {
+          this.readContents(this.scrollCount)
+        }
+      })  
   },
   methods: {
-    async contentSectionInit() {
-      await this.$store.dispatch('contents/readContents',{
-        title: ''
+    async readContents(pageNumber) {
+      await this.$store.dispatch('contents/readContents', pageNumber)
+      this.scrollCount++
+    },
+    async readContent($event, contentId) {
+      await this.$store.dispatch('contents/readContent', contentId)
+      this.$router.push({
+        name: 'content',
+        params: {
+          id:contentId
+        }
       })
+      // 라우트 함수 실행
     }
   }
 }
-// 윈도우 스크롤 이벤트 작성
 </script>
 <style lang="scss" scoped>
 .home__inner {

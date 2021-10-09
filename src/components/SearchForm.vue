@@ -1,5 +1,5 @@
 <template>
-  <form @submit.prevent="getContent">
+  <form @submit.prevent="saveInput();readContents()">
     <input
       v-model.lazy.trim="title"
       type="text" />
@@ -15,16 +15,14 @@ export default {
     }
   },
   methods: {
-    async getContent() {
-      await this.$store.dispatch('contents/readContents',{
+    saveInput() {
+      this.$store.commit('contents/saveInput',{
         title: this.title
       })
     },
-    assignTitle() {
-      this.$store.commit('contents/assignTitle',{
-        title: this.title
-      })
-    }
+    async readContents() {
+      await this.$store.dispatch('contents/readContents')
+    },
   }
 }
 </script>
