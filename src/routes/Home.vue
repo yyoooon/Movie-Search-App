@@ -4,16 +4,14 @@
       <h1>Movie Search</h1>
     </header>
     <div class="home__search">
-      <!-- 컴포넌트 -->
       <SearchForm />
     </div>
     <section class="home__contents">
       <ul>
-        <!-- 컴포넌트 -->
         <Content
           v-for="content in contents"
           :key="content.imdbID"
-          :content="content" 
+          :content="content"
           @click="readContent($event, content.imdbID)" />
       </ul>
     </section>
@@ -40,19 +38,24 @@ export default {
     }
   },
   mounted() {
-    // 윈도우 스크롤 이벤트 작성
+    let timer = null
     window.addEventListener('scroll', () => {
-        const isScrollEnded =
+      if (!timer) {
+        timer = setTimeout(() => {
+          timer = null
+          const isScrollEnded =
           window.innerHeight + window.scrollY + 100 >= document.body.offsetHeight
-        if (isScrollEnded) {
-          this.readContents(this.scrollCount)
-        }
-      })  
+          if (isScrollEnded) {
+            this.readContents(this.scrollCount)
+            this.scrollCount++
+          }
+        }, 200)
+      }
+    })
   },
   methods: {
     async readContents(pageNumber) {
       await this.$store.dispatch('contents/readContents', pageNumber)
-      this.scrollCount++
     },
     async readContent($event, contentId) {
       await this.$store.dispatch('contents/readContent', contentId)
@@ -62,7 +65,6 @@ export default {
           id:contentId
         }
       })
-      // 라우트 함수 실행
     }
   }
 }

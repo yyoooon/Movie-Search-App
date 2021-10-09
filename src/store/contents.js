@@ -1,32 +1,16 @@
+import request from '~/utils/fetch'
+
 export default {
   namespaced: true,
   state() {
     return {
       currentInput: '',
       contents: [],
+      nextContents:[],
       currentContent: {},
     }
   },
   mutations: {
-    // 서버에서 불러온 데이터를 반응성 변수로 할당해주기
-    assignState(state, payload) {
-      // 값 말고 key만 뽑기
-      Object.keys(payload).forEach((key) => {
-        // 배열 통째로 할당하는 것
-        state[key] = payload[key]
-      })
-    },
-    accumulateState(state, payload) {
-      Object.keys(payload).forEach((key) => {
-        // 배열 통째로 할당하는 것
-        const {Search} = state[key]
-        payload[key] = {
-          ...payload[key],
-          Search: [...state[key].Search, ...payload[key].Search]
-        }
-        state[key] = payload[key]
-      })
-    },
     saveInput(state,inputText) {
       const { title } = inputText
       if(state.currentInput === title) {
@@ -34,30 +18,40 @@ export default {
       }
       state.currentInput = title
     },
-    // currentContent에 누적하는 함수(스크롤 시)
+
+    assignState(state, payload) {
+      Object.keys(payload).forEach((key) => {
+        state[key] = payload[key]
+      })
+    },
+
+    // state의 데이터에(proxy)에 새로 받아온 데이터(일반obj)를 누적하기 위해
+    // 새로 받아온 데이터를 nextContents에 할당한 후, 다시 받아와서 (proxy로 변환)누적함
+    accumulateState(state, { nextContents }) {
+      state.nextContents = nextContents
+      state.contents.Search = [...state.contents.Search, ...state.nextContents.Search]
+      console.log(state.contents)
+    },
   },
   actions: {
     async readContents({ state, commit }, pageNumber = 1) {
-      const contents = await fetch(
-        `https://www.omdbapi.com?apikey=7035c60c&s=${state.currentInput}&page=${pageNumber}`,
-        {
-          method: 'GET',
-        }
-      ).then((res) => res.json())
+      const contents = await request(`s=${state.currentInput}&page=${pageNumber}`)
+
+      //같은 검색어에서 스크롤 시 
+      if (pageNumber > 1) {
+        commit('accumulateState', {
+          nextContents:contents,
+        })
+        return
+      }
+      //검색어 입력 시 
       commit('assignState', {
         contents,
       })
     },
 
     async readContent( {commit}, contentId ) {
-      const content = await fetch(
-        `https://www.omdbapi.com?apikey=7035c60c&i=${contentId}&plot=full`,
-        {
-          contentId,
-          method: 'GET',
-        }
-      ).then((res) => res.json())
-
+      const content = await request(`i=${contentId}&plot=full`)
       commit('assignState', {
         currentContent: content
       })
