@@ -1,0 +1,4 @@
+@function calculate-width($numberOfColumn, $column: 72px, $gutter: 30px) {
+  $width: ($column * $numberOfColumn) + ($gutter*($numberOfColumn - 1));
+  @return $width
+}
