@@ -15,6 +15,9 @@
           @click="readContent($event, content.imdbID)" />
       </ul>
     </section>
+    <div class="top-button">
+      <a href="#header">Top</a>
+    </div>
   </div>
 </template>
 
@@ -44,7 +47,7 @@ export default {
         timer = setTimeout(() => {
           timer = null
           const isScrollEnded =
-          window.innerHeight + window.scrollY + 100 >= document.body.offsetHeight
+          window.innerHeight + window.scrollY + 400 >= document.body.offsetHeight
           if (isScrollEnded) {
             this.readContents(this.scrollCount)
             this.scrollCount++
@@ -79,7 +82,6 @@ export default {
     display: flex;
     align-items: center;
     height: 100px;
-    margin-bottom: 40px;
     background-color: aqua;
     h1 {
       font-size: 24px;
@@ -87,7 +89,8 @@ export default {
   }
 
   .home__search {
-    padding: 0 calculate-width(2) + $gutter;
+    padding: 40px calculate-width(2) + $gutter;
+    background-color: white;
   }
 
   .home__contents {
@@ -96,5 +99,17 @@ export default {
       flex-wrap: wrap;
     }
   }
+
+  .top-button {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    a {
+      display: block;
+      padding: 10px;
+      background-color: gray;
+    }
+  }
+
 }
 </style>

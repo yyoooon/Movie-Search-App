@@ -31,7 +31,6 @@ export default {
   form {
         display: flex;
         height: 50px;
-        margin-bottom: 40px;
         input {
           flex-grow: 1;
           padding: 0 20px;

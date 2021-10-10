@@ -2,6 +2,7 @@ import request from '~/utils/fetch'
 
 export default {
   namespaced: true,
+
   state() {
     return {
       currentInput: '',
@@ -10,6 +11,7 @@ export default {
       currentContent: {},
     }
   },
+
   mutations: {
     saveInput(state,inputText) {
       const { title } = inputText
@@ -18,7 +20,6 @@ export default {
       }
       state.currentInput = title
     },
-
     assignState(state, payload) {
       Object.keys(payload).forEach((key) => {
         state[key] = payload[key]
@@ -33,10 +34,10 @@ export default {
       console.log(state.contents)
     },
   },
+
   actions: {
     async readContents({ state, commit }, pageNumber = 1) {
       const contents = await request(`s=${state.currentInput}&page=${pageNumber}`)
-
       //같은 검색어에서 스크롤 시 
       if (pageNumber > 1) {
         commit('accumulateState', {
@@ -49,7 +50,6 @@ export default {
         contents,
       })
     },
-
     async readContent( {commit}, contentId ) {
       const content = await request(`i=${contentId}&plot=full`)
       commit('assignState', {

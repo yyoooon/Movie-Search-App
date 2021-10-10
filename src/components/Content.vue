@@ -2,9 +2,10 @@
   <li class="content">
     <div
       class="content__thumbnail">
+      <!--content.Poster가 "N/A"일 시 class명 붙힘 -->
       <div
         class="content__thumbnail-img"
-        :style="{backgroundImage: `url(${content.Poster})`}"></div>
+        :style="{backgroundImage: `url(${content.Poster !== `N/A` ? content.Poster : noImageUrl})`}"></div>
     </div>
     <div class="content__text-box">
       <h2 class="text-box__title">
@@ -23,6 +24,11 @@ export default {
       default: () => ({}) // 참조형은 함수로 반환해야 함
     },
   },
+  data() {
+    return {
+      noImageUrl: 'https://soco.seoul.go.kr/images/contents/no_img_han2.png'
+    }
+  },
 }
 </script>
 
@@ -40,7 +46,6 @@ export default {
               // 반응형 시 이미지 종횡비 유지
               height : 0;
 	            padding-top : calc(244 / 200 * 100%); 
-              //
               background-position: center;
               background-size: cover;
               transition: 250ms ease-out;
@@ -52,8 +57,9 @@ export default {
           &__text-box {
             padding: 20px 0;
             .text-box__title {
-              font-size: 18px;
               margin-bottom: 10px;
+              font-size: 18px;
+              line-height: normal;
               overflow: hidden;
               text-overflow: ellipsis;
               white-space: nowrap;

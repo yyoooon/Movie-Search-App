@@ -1,0 +1,33 @@
+{
+  // 전역 객체 인식하도록
+  "env": {
+    "browser": true,
+    "node": true
+  },
+  "extends": ["eslint:recommended", "plugin:vue/vue3-recommended"],
+  // 원하는 오류 규칙을 설정할 수 있다
+  // 오류가 난 메세지창에 있는 경로로 가서 옵션코드를 가져옴
+  "rules": {
+    "semi": ["error", "never"],
+    "quotes": ["error", "single"],
+    "vue/html-closing-bracket-newline": [
+      "error",
+      {
+        "singleline": "never",
+        "multiline": "never"
+      }
+    ],
+    "vue/html-self-closing": [
+      "error",
+      {
+        "html": {
+          "void": "always",
+          "normal": "never",
+          "component": "always"
+        },
+        "svg": "always",
+        "math": "always"
+      }
+    ]
+  }
+}
