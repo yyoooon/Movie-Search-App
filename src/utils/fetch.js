@@ -3,3 +3,4 @@ export default function request(query, opts={method: 'GET'}) {
   return fetch(url, opts)
   .then(res => res.json()) 
 }
+

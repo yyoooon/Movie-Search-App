@@ -2,7 +2,6 @@
   <li class="content">
     <div
       class="content__thumbnail">
-      <!--content.Poster가 "N/A"일 시 class명 붙힘 -->
       <div
         class="content__thumbnail-img"
         :style="{backgroundImage: `url(${content.Poster !== `N/A` ? content.Poster : noImageUrl})`}"></div>
@@ -21,7 +20,7 @@ export default {
   props: {
     content: {
       type: Object,
-      default: () => ({}) // 참조형은 함수로 반환해야 함
+      default: () => ({})
     },
   },
   data() {

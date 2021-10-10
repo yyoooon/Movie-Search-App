@@ -40,6 +40,9 @@ export default {
       return this.$store.state.contents.contents.Search
     }
   },
+  created() {
+    this.readContents()
+  },
   mounted() {
     let timer = null
     window.addEventListener('scroll', () => {

@@ -31,13 +31,13 @@ export default {
     accumulateState(state, { nextContents }) {
       state.nextContents = nextContents
       state.contents.Search = [...state.contents.Search, ...state.nextContents.Search]
-      console.log(state.contents)
     },
   },
 
   actions: {
     async readContents({ state, commit }, pageNumber = 1) {
       const contents = await request(`s=${state.currentInput}&page=${pageNumber}`)
+      console.log(state.currentInput)
       //같은 검색어에서 스크롤 시 
       if (pageNumber > 1) {
         commit('accumulateState', {

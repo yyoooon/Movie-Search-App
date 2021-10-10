@@ -14,6 +14,9 @@ export default {
       title: ''
     }
   },
+  created() {
+    this.title = this.$store.state.contents.currentInput
+  },
   methods: {
     saveInput() {
       this.$store.commit('contents/saveInput',{
@@ -31,6 +34,7 @@ export default {
   form {
         display: flex;
         height: 50px;
+        margin-bottom: 40px;
         input {
           flex-grow: 1;
           padding: 0 20px;
