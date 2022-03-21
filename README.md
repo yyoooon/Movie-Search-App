@@ -1,2 +1,7 @@
-## 8주차 과제 배포를 위한 Public 레포
-기존 과제 제출 레포와 같은 형식으로 사용해 주시면 됩니다!
+## 오픈 API를 이용한 영화 검색 사이트입니다
+
+### 기술 스택 
+`vue3` `scss` `webpack` `babel`
+
+### 배포 링크
+[Movie Search App](movie-search-app-flax.vercel.app)
